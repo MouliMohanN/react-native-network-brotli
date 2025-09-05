@@ -2,12 +2,14 @@ module.exports = {
   dependency: {
     platforms: {
       android: {
-        sourceDir: '../android/',
-        javaPackageName: 'com.networkbrotli',
+        packageInstance: 'new NetworkBrotliPackage()',
+        packageName: 'com.networkbrotli',
       },
-      ios: {
-        podspecPath: '../NetworkBrotli.podspec',
-      },
+    },
+  },
+  project: {
+    android: {
+      packageName: 'com.networkbrotli',
     },
   },
 };

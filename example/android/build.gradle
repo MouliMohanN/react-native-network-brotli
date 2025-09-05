@@ -12,10 +12,41 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath("com.android.tools.build:gradle:8.11.0")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
+        classpath("com.android.tools.build:gradle")
+        classpath("com.facebook.react:react-native-gradle-plugin")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin")
     }
 }
 
+subprojects {
+    afterEvaluate {project ->
+        if (project.plugins.hasPlugin("org.jetbrains.kotlin.android")) {
+            project.android {
+                kotlinOptions {
+                    jvmTarget = "17"
+                }
+            }
+        }
+        if (project.plugins.hasPlugin("java")) {
+            project.java {
+                sourceCompatibility = JavaVersion.VERSION_17
+                targetCompatibility = JavaVersion.VERSION_17
+            }
+        }
+    }
+}
+
+//allprojects {
+//    repositories {
+//        google()
+//        mavenCentral()
+//        maven { url "https://www.jitpack.io" }
+//        // React Native specific repositories
+//        maven {
+//            url "https://oss.sonatype.org/content/repositories/snapshots/"
+//        }
+//    }
+//}
+
 // Commented out React Native rootproject plugin for traditional RN 0.81.0 setup
-// apply plugin: "com.facebook.react.rootproject"
+ apply plugin: "com.facebook.react.rootproject"

@@ -115,10 +115,17 @@ RCT_EXPORT_MODULE()
     return _isEnabled;
 }
 
+// Standard bridge methods
++ (BOOL)requiresMainQueueSetup
+{
+    return NO;
+}
+
+// TurboModule methods
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:
     (const facebook::react::ObjCTurboModule::InitParams &)params
 {
-    return std::make_shared<facebook::react::NativeNetworkBrotliSpecJSI>(params);
+    return std::make_shared<facebook::react::ObjCTurboModule>(params);
 }
 
 @end

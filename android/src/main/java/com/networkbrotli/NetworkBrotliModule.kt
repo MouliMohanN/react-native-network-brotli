@@ -1,16 +1,13 @@
 package com.networkbrotli
 
+import com.facebook.fbreact.specs.NativeNetworkBrotliSpec
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
-import com.facebook.react.bridge.ReactContextBaseJavaModule
-import com.facebook.react.bridge.ReactMethod
-import com.facebook.react.bridge.WritableMap
 import com.facebook.react.bridge.WritableNativeMap
 import com.facebook.react.module.annotations.ReactModule
 import com.facebook.react.modules.network.OkHttpClientProvider
 import okhttp3.Interceptor
 import okhttp3.Response
-import okio.Buffer
 import java.io.IOException
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
@@ -18,7 +15,7 @@ import java.util.concurrent.atomic.AtomicLong
 
 @ReactModule(name = NetworkBrotliModule.NAME)
 class NetworkBrotliModule(reactContext: ReactApplicationContext) :
-  ReactContextBaseJavaModule(reactContext) {
+  NativeNetworkBrotliSpec(reactContext) {
 
   companion object {
     const val NAME = "NetworkBrotli"
@@ -35,8 +32,7 @@ class NetworkBrotliModule(reactContext: ReactApplicationContext) :
 
   override fun getName(): String = NAME
 
-  @ReactMethod
-  fun initialize(promise: Promise) {
+  override fun initialize(promise: Promise) {
     try {
       if (isInitialized.get()) {
         promise.resolve(true)
@@ -59,13 +55,11 @@ class NetworkBrotliModule(reactContext: ReactApplicationContext) :
     }
   }
 
-  @ReactMethod
-  fun isEnabled(promise: Promise) {
+  override fun isEnabled(promise: Promise) {
     promise.resolve(isEnabled.get())
   }
 
-  @ReactMethod
-  fun setEnabled(enabled: Boolean, promise: Promise) {
+  override fun setEnabled(enabled: Boolean, promise: Promise) {
     try {
       isEnabled.set(enabled)
       promise.resolve(null)
@@ -74,8 +68,7 @@ class NetworkBrotliModule(reactContext: ReactApplicationContext) :
     }
   }
 
-  @ReactMethod
-  fun getStats(promise: Promise) {
+  override fun getStats(promise: Promise) {
     try {
       val stats = WritableNativeMap()
       stats.putInt("totalRequests", totalRequests.get())
@@ -95,8 +88,7 @@ class NetworkBrotliModule(reactContext: ReactApplicationContext) :
     }
   }
 
-  @ReactMethod
-  fun resetStats(promise: Promise) {
+  override fun resetStats(promise: Promise) {
     try {
       totalRequests.set(0)
       brotliRequests.set(0)
